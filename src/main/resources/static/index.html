@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Police Force Database</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body class="bg-light">
+<div class="container py-4">
+    <h1 class="mb-4">Police Force Database  </h1>
+
+    <!-- Stations section -->
+    <div class="card mb-4">
+        <div class="card-header">Stations</div>
+        <div class="card-body">
+            <form id="station-form" class="row g-2 mb-3">
+                <div class="col-md-3">
+                    <label for="station-name" class="form-label mb-1">Name</label>
+                    <input type="text" id="station-name" class="form-control" placeholder="Name" />
+                </div>
+                <div class="col-md-4">
+                    <label for="station-address" class="form-label mb-1">Address</label>
+                    <input type="text" id="station-address" class="form-control" placeholder="Address" />
+                </div>
+                <div class="col-md-3">
+                    <label for="station-phone" class="form-label mb-1">Phone</label>
+                    <input type="text" id="station-phone" class="form-control" placeholder="Phone" required />
+                </div>
+                <div class="col-md-2 d-grid">
+                    <button type="submit" class="btn btn-primary">Add Station</button>
+                </div>
+            </form>
+
+            <table class="table table-sm table-striped mb-0">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Phone</th>
+                    <th style="width: 180px;">Actions</th>
+                </tr>
+                </thead>
+                <tbody id="stations-table-body"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Officers section -->
+    <div class="card mb-4">
+        <div class="card-header">Officers</div>
+        <div class="card-body">
+            <form id="officer-form" class="row g-2 mb-3">
+                <div class="col-md-3">
+                    <input type="text" id="officer-first-name" class="form-control" placeholder="First Name" required />
+                </div>
+                <div class="col-md-3">
+                    <input type="text" id="officer-last-name" class="form-control" placeholder="Last Name" required />
+                </div>
+                <div class="col-md-2">
+                    <input type="text" id="officer-badge" class="form-control" placeholder="Badge #" required />
+                </div>
+                <div class="col-md-2">
+                    <input type="text" id="officer-rank" class="form-control" placeholder="Rank" required />
+                </div>
+                <div class="col-md-2">
+                    <select id="officer-station-id" class="form-select">
+                        <option value="">No station</option>
+                    </select>
+                </div>
+                <div class="col-md-2 d-grid">
+                    <button type="submit" class="btn btn-primary">Add Officer</button>
+                </div>
+            </form>
+
+            <table class="table table-sm table-striped mb-0">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Badge #</th>
+                    <th>Rank</th>
+                    <th>Station</th>
+                    <th style="width: 180px;">Actions</th>
+                </tr>
+                </thead>
+                <tbody id="officers-table-body"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Cases section -->
+    <div class="card mb-4">
+        <div class="card-header">Cases</div>
+        <div class="card-body">
+            <form id="case-form" class="row g-2 mb-3">
+                <div class="col-md-3">
+                    <input type="text" id="case-title" class="form-control" placeholder="Title" />
+                </div>
+                <div class="col-md-3">
+                    <input type="text" id="case-status" class="form-control" placeholder="Status (OPEN/CLOSED)" />
+                </div>
+                <div class="col-md-2">
+                    <input type="date" id="case-date-opened" class="form-control" title="Date Opened" />
+                </div>
+                <div class="col-md-2">
+                    <input type="date" id="case-date-closed" class="form-control" title="Date Closed" />
+                </div>
+                <div class="col-md-2">
+                    <select id="case-lead-officer-id" class="form-select">
+                        <option value="">No lead officer</option>
+                    </select>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" id="case-description" class="form-control" placeholder="Description" />
+                </div>
+                <div class="col-md-2 d-grid">
+                    <button type="submit" class="btn btn-primary">Add Case</button>
+                </div>
+            </form>
+
+            <table class="table table-sm table-striped mb-0">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Status</th>
+                    <th>Date Opened</th>
+                    <th>Lead Officer</th>
+                    <th style="width: 180px;">Actions</th>
+                </tr>
+                </thead>
+                <tbody id="cases-table-body"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Suspects section -->
+    <div class="card mb-4">
+        <div class="card-header">Suspects</div>
+        <div class="card-body">
+            <form id="suspect-form" class="row g-2 mb-3">
+                <div class="col-md-2">
+                    <input type="text" id="suspect-first-name" class="form-control" placeholder="First Name" />
+                </div>
+                <div class="col-md-2">
+                    <input type="text" id="suspect-last-name" class="form-control" placeholder="Last Name" />
+                </div>
+                <div class="col-md-2">
+                    <input type="date" id="suspect-dob" class="form-control" title="Date of Birth" />
+                </div>
+                <div class="col-md-3">
+                    <input type="text" id="suspect-address" class="form-control" placeholder="Address" />
+                </div>
+                <div class="col-md-2">
+                    <select id="suspect-case-id" class="form-select">
+                        <option value="">No case</option>
+                    </select>
+                </div>
+                <div class="col-md-1 d-grid">
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </form>
+
+            <table class="table table-sm table-striped mb-0">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>DOB</th>
+                    <th>Address</th>
+                    <th>Case</th>
+                    <th style="width: 180px;">Actions</th>
+                </tr>
+                </thead>
+                <tbody id="suspects-table-body"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="status" class="text-muted small"></div>
+</div>
+
+<script>
+    const statusEl = document.getElementById('status');
+    let stationsCache = [];
+    let officersCache = [];
+    let casesCache = [];
+
+    function setStatus(message, isError = false) {
+        statusEl.textContent = message;
+        statusEl.classList.toggle('text-danger', isError);
+    }
+
+    async function loadStations() {
+        try {
+            const res = await fetch('/api/stations');
+            const data = await res.json();
+            stationsCache = Array.isArray(data) ? data : [];
+
+            // Populate station dropdown for officer form
+            const stationSelect = document.getElementById('officer-station-id');
+            if (stationSelect) {
+                const current = stationSelect.value;
+                stationSelect.innerHTML = '<option value="">No station</option>';
+                stationsCache.forEach(s => {
+                    const opt = document.createElement('option');
+                    opt.value = String(s.stationId ?? '');
+                    opt.textContent = `${s.name ?? ''}`.trim() || `Station #${s.stationId}`;
+                    stationSelect.appendChild(opt);
+                });
+                if (current) stationSelect.value = current;
+            }
+
+            const tbody = document.getElementById('stations-table-body');
+            tbody.innerHTML = '';
+            stationsCache.forEach(station => tbody.appendChild(renderStationRow(station)));
+        } catch (e) {
+            setStatus('Failed to load stations', true);
+        }
+    }
+
+    async function loadOfficers() {
+        try {
+            const res = await fetch('/api/officers');
+            const data = await res.json();
+            officersCache = Array.isArray(data) ? data : [];
+
+            // Populate lead officer dropdown for case form
+            const leadOfficerSelect = document.getElementById('case-lead-officer-id');
+            if (leadOfficerSelect) {
+                const current = leadOfficerSelect.value;
+                leadOfficerSelect.innerHTML = '<option value="">No lead officer</option>';
+                officersCache.forEach(o => {
+                    const opt = document.createElement('option');
+                    opt.value = String(o.officerId ?? '');
+                    const label = `${(o.firstName ?? '').trim()} ${(o.lastName ?? '').trim()}`.trim() || `Officer #${o.officerId}`;
+                    opt.textContent = label;
+                    leadOfficerSelect.appendChild(opt);
+                });
+                if (current) leadOfficerSelect.value = current;
+            }
+
+            const tbody = document.getElementById('officers-table-body');
+            tbody.innerHTML = '';
+            officersCache.forEach(officer => tbody.appendChild(renderOfficerRow(officer)));
+        } catch (e) {
+            setStatus('Failed to load officers', true);
+        }
+    }
+
+    async function loadCases() {
+        try {
+            const res = await fetch('/api/cases');
+            const data = await res.json();
+            casesCache = Array.isArray(data) ? data : [];
+
+            // Populate case dropdown for suspect form
+            const caseSelect = document.getElementById('suspect-case-id');
+            if (caseSelect) {
+                const current = caseSelect.value;
+                caseSelect.innerHTML = '<option value="">No case</option>';
+                casesCache.forEach(c => {
+                    const opt = document.createElement('option');
+                    opt.value = String(c.caseId ?? '');
+                    const label = `${(c.title ?? '').trim()}`.trim() || `Case #${c.caseId}`;
+                    opt.textContent = label;
+                    caseSelect.appendChild(opt);
+                });
+                if (current) caseSelect.value = current;
+            }
+
+            const tbody = document.getElementById('cases-table-body');
+            tbody.innerHTML = '';
+            casesCache.forEach(policeCase => tbody.appendChild(renderCaseRow(policeCase)));
+        } catch (e) {
+            setStatus('Failed to load cases', true);
+        }
+    }
+
+    async function loadSuspects() {
+        try {
+            const res = await fetch('/api/suspects');
+            const data = await res.json();
+            const tbody = document.getElementById('suspects-table-body');
+            tbody.innerHTML = '';
+            (Array.isArray(data) ? data : []).forEach(suspect => tbody.appendChild(renderSuspectRow(suspect)));
+        } catch (e) {
+            setStatus('Failed to load suspects', true);
+        }
+    }
+
+    function renderStationRow(station) {
+        const tr = document.createElement('tr');
+        tr.dataset.id = station.stationId;
+        tr.innerHTML = `
+            <td>${station.stationId ?? ''}</td>
+            <td>${station.name ?? ''}</td>
+            <td>${station.address ?? ''}</td>
+            <td>${station.phone ?? ''}</td>
+            <td>
+                <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-action="edit-station">Edit</button>
+                    <button type="button" class="btn btn-sm btn-outline-danger" data-action="delete-station">Delete</button>
+                </div>
+            </td>
+        `;
+        tr.addEventListener('click', async (e) => {
+            const btn = e.target.closest('button');
+            if (!btn) return;
+            const action = btn.dataset.action;
+            if (action === 'edit-station') {
+                tr.replaceWith(renderStationEditRow(station));
+            }
+            if (action === 'delete-station') {
+                if (!confirm('Delete this station?')) return;
+                await deleteStation(station.stationId);
+            }
+        });
+        return tr;
+    }
+
+    function renderStationEditRow(station) {
+        const tr = document.createElement('tr');
+        tr.dataset.id = station.stationId;
+        tr.innerHTML = `
+            <td>${station.stationId ?? ''}</td>
+            <td><input class="form-control form-control-sm" value="${escapeHtml(station.name ?? '')}" data-field="name" /></td>
+            <td><input class="form-control form-control-sm" value="${escapeHtml(station.address ?? '')}" data-field="address" /></td>
+            <td><input class="form-control form-control-sm" value="${escapeHtml(station.phone ?? '')}" data-field="phone" /></td>
+            <td>
+                <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-sm btn-primary" data-action="save">Save</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-action="cancel">Cancel</button>
+                </div>
+            </td>
+        `;
+        tr.addEventListener('click', async (e) => {
+            const btn = e.target.closest('button');
+            if (!btn) return;
+            const action = btn.dataset.action;
+            if (action === 'cancel') {
+                await loadStations();
+                return;
+            }
+            if (action === 'save') {
+                const name = tr.querySelector('[data-field="name"]').value.trim();
+                const address = tr.querySelector('[data-field="address"]').value.trim();
+                const phone = tr.querySelector('[data-field="phone"]').value.trim();
+                await updateStation(station.stationId, { name, address, phone });
+            }
+        });
+        return tr;
+    }
+
+    function renderOfficerRow(officer) {
+        const tr = document.createElement('tr');
+        tr.dataset.id = officer.officerId;
+        const fullName = `${officer.firstName ?? ''} ${officer.lastName ?? ''}`.trim();
+        const stationName = officer.station?.name ?? '';
+        tr.innerHTML = `
+            <td>${officer.officerId ?? ''}</td>
+            <td>${fullName}</td>
+            <td>${officer.badgeNumber ?? ''}</td>
+            <td>${officer.rank ?? ''}</td>
+            <td>${stationName}</td>
+            <td>
+                <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-action="edit-officer">Edit</button>
+                    <button type="button" class="btn btn-sm btn-outline-danger" data-action="delete-officer">Delete</button>
+                </div>
+            </td>
+        `;
+        tr.addEventListener('click', async (e) => {
+            const btn = e.target.closest('button');
+            if (!btn) return;
+            const action = btn.dataset.action;
+            if (action === 'edit-officer') {
+                tr.replaceWith(renderOfficerEditRow(officer));
+            }
+            if (action === 'delete-officer') {
+                if (!confirm('Delete this officer?')) return;
+                await deleteOfficer(officer.officerId);
+            }
+        });
+        return tr;
+    }
+
+    function renderCaseRow(policeCase) {
+        const tr = document.createElement('tr');
+        tr.dataset.id = policeCase.caseId;
+        const leadOfficerName = policeCase.leadOfficer
+            ? `${policeCase.leadOfficer.firstName ?? ''} ${policeCase.leadOfficer.lastName ?? ''}`.trim()
+            : '';
+        tr.innerHTML = `
+            <td>${policeCase.caseId ?? ''}</td>
+            <td>${policeCase.title ?? ''}</td>
+            <td>${policeCase.status ?? ''}</td>
+            <td>${policeCase.dateOpened ?? ''}</td>
+            <td>${leadOfficerName}</td>
+            <td>
+                <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-action="edit-case">Edit</button>
+                    <button type="button" class="btn btn-sm btn-outline-danger" data-action="delete-case">Delete</button>
+                </div>
+            </td>
+        `;
+
+        tr.addEventListener('click', async (e) => {
+            const btn = e.target.closest('button');
+            if (!btn) return;
+            const action = btn.dataset.action;
+            if (action === 'edit-case') {
+                tr.replaceWith(renderCaseEditRow(policeCase));
+            }
+            if (action === 'delete-case') {
+                if (!confirm('Delete this case?')) return;
+                await deleteCase(policeCase.caseId);
+            }
+        });
+        return tr;
+    }
+
+    function renderCaseEditRow(policeCase) {
+        const tr = document.createElement('tr');
+        tr.dataset.id = policeCase.caseId;
+
+        const currentOfficerId = policeCase.leadOfficer?.officerId ? String(policeCase.leadOfficer.officerId) : '';
+        const leadOfficerOptions = ['<option value="">No lead officer</option>']
+            .concat(officersCache.map(o => {
+                const selected = String(o.officerId) === currentOfficerId ? ' selected' : '';
+                const label = `${(o.firstName ?? '').trim()} ${(o.lastName ?? '').trim()}`.trim() || `Officer #${o.officerId}`;
+                return `<option value="${o.officerId}"${selected}>${escapeHtml(label)}</option>`;
+            }))
+            .join('');
+
+        const dateOpened = policeCase.dateOpened ?? '';
+        const dateClosed = policeCase.dateClosed ?? '';
+
+        tr.innerHTML = `
+            <td>${policeCase.caseId ?? ''}</td>
+            <td>
+                <input class="form-control form-control-sm" value="${escapeHtml(policeCase.title ?? '')}" data-field="title" />
+                <input class="form-control form-control-sm mt-1" value="${escapeHtml(policeCase.description ?? '')}" data-field="description" placeholder="Description" />
+            </td>
+            <td><input class="form-control form-control-sm" value="${escapeHtml(policeCase.status ?? '')}" data-field="status" /></td>
+            <td>
+                <input class="form-control form-control-sm" type="date" value="${escapeHtml(dateOpened)}" data-field="dateOpened" />
+                <input class="form-control form-control-sm mt-1" type="date" value="${escapeHtml(dateClosed)}" data-field="dateClosed" />
+            </td>
+            <td>
+                <select class="form-select form-select-sm" data-field="leadOfficerId">${leadOfficerOptions}</select>
+            </td>
+            <td>
+                <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-sm btn-primary" data-action="save">Save</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-action="cancel">Cancel</button>
+                </div>
+            </td>
+        `;
+
+        tr.addEventListener('click', async (e) => {
+            const btn = e.target.closest('button');
+            if (!btn) return;
+            const action = btn.dataset.action;
+            if (action === 'cancel') {
+                await loadCases();
+                return;
+            }
+            if (action === 'save') {
+                const title = tr.querySelector('[data-field="title"]').value.trim();
+                const description = tr.querySelector('[data-field="description"]').value.trim();
+                const status = tr.querySelector('[data-field="status"]').value.trim();
+                const dateOpenedValue = tr.querySelector('[data-field="dateOpened"]').value || null;
+                const dateClosedValue = tr.querySelector('[data-field="dateClosed"]').value || null;
+                const leadOfficerIdValue = tr.querySelector('[data-field="leadOfficerId"]').value;
+
+                const payload = { title, description, status, dateOpened: dateOpenedValue, dateClosed: dateClosedValue };
+                payload.leadOfficer = leadOfficerIdValue ? { officerId: Number(leadOfficerIdValue) } : null;
+
+                await updateCase(policeCase.caseId, payload);
+            }
+        });
+
+        return tr;
+    }
+
+    function renderSuspectRow(suspect) {
+        const tr = document.createElement('tr');
+        tr.dataset.id = suspect.suspectId;
+        const fullName = `${suspect.firstName ?? ''} ${suspect.lastName ?? ''}`.trim();
+        const caseTitle = suspect.policeCase?.title ?? '';
+        tr.innerHTML = `
+            <td>${suspect.suspectId ?? ''}</td>
+            <td>${fullName}</td>
+            <td>${suspect.dob ?? ''}</td>
+            <td>${suspect.address ?? ''}</td>
+            <td>${caseTitle}</td>
+            <td>
+                <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-action="edit-suspect">Edit</button>
+                    <button type="button" class="btn btn-sm btn-outline-danger" data-action="delete-suspect">Delete</button>
+                </div>
+            </td>
+        `;
+
+        tr.addEventListener('click', async (e) => {
+            const btn = e.target.closest('button');
+            if (!btn) return;
+            const action = btn.dataset.action;
+            if (action === 'edit-suspect') {
+                tr.replaceWith(renderSuspectEditRow(suspect));
+            }
+            if (action === 'delete-suspect') {
+                if (!confirm('Delete this suspect?')) return;
+                await deleteSuspect(suspect.suspectId);
+            }
+        });
+        return tr;
+    }
+
+    function renderSuspectEditRow(suspect) {
+        const tr = document.createElement('tr');
+        tr.dataset.id = suspect.suspectId;
+
+        const currentCaseId = suspect.policeCase?.caseId ? String(suspect.policeCase.caseId) : '';
+        const caseOptions = ['<option value="">No case</option>']
+            .concat(casesCache.map(c => {
+                const selected = String(c.caseId) === currentCaseId ? ' selected' : '';
+                const label = (c.title ?? '').trim() || `Case #${c.caseId}`;
+                return `<option value="${c.caseId}"${selected}>${escapeHtml(label)}</option>`;
+            }))
+            .join('');
+
+        const dobValue = suspect.dob ?? '';
+
+        tr.innerHTML = `
+            <td>${suspect.suspectId ?? ''}</td>
+            <td>
+                <div class="d-flex gap-2">
+                    <input class="form-control form-control-sm" style="max-width: 160px" value="${escapeHtml(suspect.firstName ?? '')}" data-field="firstName" />
+                    <input class="form-control form-control-sm" style="max-width: 160px" value="${escapeHtml(suspect.lastName ?? '')}" data-field="lastName" />
+                </div>
+            </td>
+            <td><input class="form-control form-control-sm" type="date" value="${escapeHtml(dobValue)}" data-field="dob" /></td>
+            <td><input class="form-control form-control-sm" value="${escapeHtml(suspect.address ?? '')}" data-field="address" /></td>
+            <td><select class="form-select form-select-sm" data-field="caseId">${caseOptions}</select></td>
+            <td>
+                <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-sm btn-primary" data-action="save">Save</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-action="cancel">Cancel</button>
+                </div>
+            </td>
+        `;
+
+        tr.addEventListener('click', async (e) => {
+            const btn = e.target.closest('button');
+            if (!btn) return;
+            const action = btn.dataset.action;
+            if (action === 'cancel') {
+                await loadSuspects();
+                return;
+            }
+            if (action === 'save') {
+                const firstName = tr.querySelector('[data-field="firstName"]').value.trim();
+                const lastName = tr.querySelector('[data-field="lastName"]').value.trim();
+                const dob = tr.querySelector('[data-field="dob"]').value || null;
+                const address = tr.querySelector('[data-field="address"]').value.trim();
+                const caseIdValue = tr.querySelector('[data-field="caseId"]').value;
+
+                const payload = { firstName, lastName, dob, address };
+                payload.policeCase = caseIdValue ? { caseId: Number(caseIdValue) } : null;
+
+                await updateSuspect(suspect.suspectId, payload);
+            }
+        });
+
+        return tr;
+    }
+
+    async function updateCase(id, payload) {
+        try {
+            const res = await fetch(`/api/cases/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            if (!res.ok) throw new Error();
+            setStatus('Case updated successfully');
+            await loadCases();
+            await loadSuspects();
+        } catch (err) {
+            setStatus('Failed to update case', true);
+        }
+    }
+
+    async function deleteCase(id) {
+        try {
+            const res = await fetch(`/api/cases/${id}`, { method: 'DELETE' });
+            if (!res.ok) throw new Error();
+            setStatus('Case deleted successfully');
+            await loadCases();
+            await loadSuspects();
+        } catch (err) {
+            setStatus('Failed to delete case', true);
+        }
+    }
+
+    async function updateSuspect(id, payload) {
+        try {
+            const res = await fetch(`/api/suspects/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            if (!res.ok) throw new Error();
+            setStatus('Suspect updated successfully');
+            await loadSuspects();
+        } catch (err) {
+            setStatus('Failed to update suspect', true);
+        }
+    }
+
+    async function deleteSuspect(id) {
+        try {
+            const res = await fetch(`/api/suspects/${id}`, { method: 'DELETE' });
+            if (!res.ok) throw new Error();
+            setStatus('Suspect deleted successfully');
+            await loadSuspects();
+        } catch (err) {
+            setStatus('Failed to delete suspect', true);
+        }
+    }
+
+    function renderOfficerEditRow(officer) {
+        const tr = document.createElement('tr');
+        tr.dataset.id = officer.officerId;
+        const stationId = officer.station?.stationId ? String(officer.station.stationId) : '';
+        const stationOptions = ['<option value="">No station</option>']
+            .concat(stationsCache.map(s => {
+                const selected = String(s.stationId) === stationId ? ' selected' : '';
+                const label = (s.name ?? '').trim() || `Station #${s.stationId}`;
+                return `<option value="${s.stationId}"${selected}>${escapeHtml(label)}</option>`;
+            }))
+            .join('');
+
+        tr.innerHTML = `
+            <td>${officer.officerId ?? ''}</td>
+            <td>
+                <div class="d-flex gap-2">
+                    <input class="form-control form-control-sm" style="max-width: 160px" value="${escapeHtml(officer.firstName ?? '')}" data-field="firstName" />
+                    <input class="form-control form-control-sm" style="max-width: 160px" value="${escapeHtml(officer.lastName ?? '')}" data-field="lastName" />
+                </div>
+            </td>
+            <td><input class="form-control form-control-sm" value="${escapeHtml(officer.badgeNumber ?? '')}" data-field="badgeNumber" /></td>
+            <td><input class="form-control form-control-sm" value="${escapeHtml(officer.rank ?? '')}" data-field="rank" /></td>
+            <td><select class="form-select form-select-sm" data-field="stationId">${stationOptions}</select></td>
+            <td>
+                <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-sm btn-primary" data-action="save">Save</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-action="cancel">Cancel</button>
+                </div>
+            </td>
+        `;
+
+        tr.addEventListener('click', async (e) => {
+            const btn = e.target.closest('button');
+            if (!btn) return;
+            const action = btn.dataset.action;
+            if (action === 'cancel') {
+                await loadOfficers();
+                return;
+            }
+            if (action === 'save') {
+                const firstName = tr.querySelector('[data-field="firstName"]').value.trim();
+                const lastName = tr.querySelector('[data-field="lastName"]').value.trim();
+                const badgeNumber = tr.querySelector('[data-field="badgeNumber"]').value.trim();
+                const rank = tr.querySelector('[data-field="rank"]').value.trim();
+                const stationIdValue = tr.querySelector('[data-field="stationId"]').value;
+
+                const payload = { firstName, lastName, badgeNumber, rank };
+                payload.station = stationIdValue ? { stationId: Number(stationIdValue) } : null;
+
+                await updateOfficer(officer.officerId, payload);
+            }
+        });
+
+        return tr;
+    }
+
+    async function updateStation(id, payload) {
+        try {
+            const res = await fetch(`/api/stations/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            if (!res.ok) throw new Error();
+            setStatus('Station updated successfully');
+            await loadStations();
+            await loadOfficers();
+        } catch (err) {
+            setStatus('Failed to update station', true);
+        }
+    }
+
+    async function deleteStation(id) {
+        try {
+            const res = await fetch(`/api/stations/${id}`, { method: 'DELETE' });
+            if (!res.ok) throw new Error();
+            setStatus('Station deleted successfully');
+            await loadStations();
+        } catch (err) {
+            setStatus('Failed to delete station (may have related officers)', true);
+        }
+    }
+
+    async function updateOfficer(id, payload) {
+        try {
+            const res = await fetch(`/api/officers/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            if (!res.ok) throw new Error();
+            setStatus('Officer updated successfully');
+            await loadOfficers();
+            await loadCases();
+        } catch (err) {
+            setStatus('Failed to update officer', true);
+        }
+    }
+
+    async function deleteOfficer(id) {
+        try {
+            const res = await fetch(`/api/officers/${id}`, { method: 'DELETE' });
+            if (!res.ok) throw new Error();
+            setStatus('Officer deleted successfully');
+            await loadOfficers();
+            await loadCases();
+        } catch (err) {
+            setStatus('Failed to delete officer', true);
+        }
+    }
+
+    function escapeHtml(value) {
+        return String(value)
+            .replaceAll('&', '&amp;')
+            .replaceAll('<', '&lt;')
+            .replaceAll('>', '&gt;')
+            .replaceAll('"', '&quot;')
+            .replaceAll("'", '&#039;');
+    }
+
+    document.getElementById('station-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const name = document.getElementById('station-name').value.trim();
+        const address = document.getElementById('station-address').value.trim();
+        const phone = document.getElementById('station-phone').value.trim();
+
+        try {
+            const res = await fetch('/api/stations', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, address, phone })
+            });
+            if (!res.ok) throw new Error();
+            setStatus('Station added successfully');
+            e.target.reset();
+            await loadStations();
+        } catch (err) {
+            setStatus('Failed to add station', true);
+        }
+    });
+
+    document.getElementById('officer-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const firstName = document.getElementById('officer-first-name').value.trim();
+        const lastName = document.getElementById('officer-last-name').value.trim();
+        const badgeNumber = document.getElementById('officer-badge').value.trim();
+        const rank = document.getElementById('officer-rank').value.trim();
+        const stationIdValue = document.getElementById('officer-station-id')?.value;
+
+        const payload = { firstName, lastName, badgeNumber, rank };
+        payload.station = stationIdValue ? { stationId: Number(stationIdValue) } : null;
+
+        try {
+            const res = await fetch('/api/officers', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            if (!res.ok) throw new Error();
+            setStatus('Officer added successfully');
+            e.target.reset();
+            await loadOfficers();
+        } catch (err) {
+            setStatus('Failed to add officer', true);
+        }
+    });
+
+    document.getElementById('case-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const title = document.getElementById('case-title').value.trim();
+        const status = document.getElementById('case-status').value.trim();
+        const dateOpened = document.getElementById('case-date-opened').value || null;
+        const dateClosed = document.getElementById('case-date-closed').value || null;
+        const description = document.getElementById('case-description').value.trim();
+        const leadOfficerIdValue = document.getElementById('case-lead-officer-id')?.value;
+
+        const payload = { title, status, description, dateOpened, dateClosed };
+        payload.leadOfficer = leadOfficerIdValue ? { officerId: Number(leadOfficerIdValue) } : null;
+
+        try {
+            const res = await fetch('/api/cases', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            if (!res.ok) throw new Error();
+            setStatus('Case added successfully');
+            e.target.reset();
+            await loadCases();
+        } catch (err) {
+            setStatus('Failed to add case', true);
+        }
+    });
+
+    document.getElementById('suspect-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const firstName = document.getElementById('suspect-first-name').value.trim();
+        const lastName = document.getElementById('suspect-last-name').value.trim();
+        const dob = document.getElementById('suspect-dob').value || null;
+        const address = document.getElementById('suspect-address').value.trim();
+        const caseIdValue = document.getElementById('suspect-case-id')?.value;
+
+        const payload = { firstName, lastName, dob, address };
+        payload.policeCase = caseIdValue ? { caseId: Number(caseIdValue) } : null;
+
+        try {
+            const res = await fetch('/api/suspects', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            if (!res.ok) throw new Error();
+            setStatus('Suspect added successfully');
+            e.target.reset();
+            await loadSuspects();
+        } catch (err) {
+            setStatus('Failed to add suspect', true);
+        }
+    });
+
+    // Initial load
+    (async () => {
+        await loadStations();
+        await loadOfficers();
+        await loadCases();
+        await loadSuspects();
+    })();
+</script>
+</body>
+</html>

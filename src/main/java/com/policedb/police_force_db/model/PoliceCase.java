@@ -1,11 +1,13 @@
 package com.policedb.police_force_db.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
 @Table(name = "cases")
+@JsonIgnoreProperties({"suspects"})
 public class PoliceCase {
 
     @Id
@@ -25,6 +27,7 @@ public class PoliceCase {
 
     @ManyToOne
     @JoinColumn(name = "lead_officer_id")
+    @JsonIgnoreProperties({"casesLed"})
     private Officer leadOfficer;
 
     @OneToMany(mappedBy = "policeCase")

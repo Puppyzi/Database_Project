@@ -1,5 +1,6 @@
 package com.policedb.police_force_db.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
@@ -21,6 +22,7 @@ public class Suspect {
 
     @ManyToOne
     @JoinColumn(name = "case_id")
+    @JsonIgnoreProperties({"suspects"})
     private PoliceCase policeCase;
 
     // --- Constructors ---
