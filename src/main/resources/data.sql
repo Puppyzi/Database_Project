@@ -1,3 +1,9 @@
+-- Sample data for police-force-db
+--
+-- NOTE:
+-- This file is intended to be run only when using the "seed" profile.
+-- If you run it on every startup, it will re-insert any rows you deleted.
+
 -- Stations (10)
 INSERT IGNORE INTO `stations` (`station_id`, `name`, `address`, `phone`) VALUES
   (1, 'Central Station', '100 Main St', '555-0100'),
