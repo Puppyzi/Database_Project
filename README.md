@@ -1,8 +1,6 @@
 ## Police Force Database
 
-
 https://github.com/user-attachments/assets/af911521-7287-4af2-8352-4232e97fa6e7
-
 
 Full-stack CRUD web app for managing Stations, Officers, Police Cases, and Suspects.
 
